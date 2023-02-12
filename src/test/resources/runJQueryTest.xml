@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="jQuery_Datatable">
+	
+  <test name="Run on Chrome">
+  	<parameter name ="browser" value ="chrome"/>
+    <classes>
+      <class name="com.jquery.datatable.Level_10__Data_Table"/>
+    </classes>
+  </test>
+
+
+  
+
+  
+</suite> 

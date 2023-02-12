@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="LiveGuru">
+
+
+  <test name="Run on Chrome">
+  	<parameter name ="browser" value ="chrome"/>
+    <classes>
+      <class name="com.liveguru.user.Level_06_Page_Generator_Manager_III"/>
+    </classes>
+  </test>
+
+
+  
+
+  
+</suite> 
