@@ -424,3 +424,13 @@ Session ID: 5a43d2b5-0c5c-4511-8eb5-4dc7cfb49a1a
 [INFO ] [2023-02-12 10:26:26,348]  -------------------------- PASSED -------------------------- 
 [INFO ] [2023-02-12 10:34:00,346]  -------------------------- FAILED -------------------------- 
 [INFO ] [2023-02-12 10:34:01,993]  -------------------------- PASSED -------------------------- 
+[INFO ] [2023-02-12 22:36:43,295]  -------------------------- FAILED -------------------------- 
+[INFO ] [2023-02-12 22:36:45,145]  -------------------------- PASSED -------------------------- 
+[INFO ] [2023-02-20 20:37:02,136] Pre-Condition - STEP 01: Open browser 'chrome' and  navigate to 'https://demo.nopcommerce.com/' 
+[INFO ] [2023-02-20 20:37:06,424] User_01_Register - Step 01: Click to register link
+[INFO ] [2023-02-20 20:37:08,122] User_01_Register - Step 02: Click to male radio button
+[INFO ] [2023-02-20 20:37:08,226] User_01_Register - Step 03: Enter to First Name textbox with value automation
+[INFO ] [2023-03-26 15:59:41,980] Pre-Condition - STEP 01: Open browser 'chrome' and  navigate to 'https://demo.nopcommerce.com/' 
+[INFO ] [2023-03-26 15:59:48,789] User_01_Register - Step 01: Click to register link
+[INFO ] [2023-03-26 15:59:49,790] User_01_Register - Step 02: Click to male radio button
+[INFO ] [2023-03-26 15:59:49,906] User_01_Register - Step 03: Enter to First Name textbox with value automation
