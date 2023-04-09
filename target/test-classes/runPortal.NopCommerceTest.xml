@@ -4,18 +4,21 @@
 
 	
 <parameter name ="url" value ="https://demo.nopcommerce.com/"/>
- 
- <listeners>
-	 <listener class-name ="commons.MethodListener"/>
-		<listener class-name ="reportConfig.ExtentTestListener"/>
+    <parameter name ="browser" value ="chrome"/>
+
+
+    <listeners>
+<!-- 		<listener class-name ="commons.MethodListener"/> -->
+		<listener class-name ="actions.reportConfig.AllureTestListener"/>
 	</listeners>
   
   
   
   <test name="Run on Chrome">
-  	<parameter name ="browser" value ="chrome"/>
+  	<parameter name ="browser" value ="firefox"/>
     <classes>
-      <class name="com.nopcommerce.user.Level_15_Register_Login_Parttern_Object"/>
+      <class name=""/>
+      <class name="com.nopcommerce.user.Level_14_Register_Login_Share_State"/>
     </classes>
   </test>
   

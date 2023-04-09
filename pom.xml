@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hybrid.nopcommerce</groupId>
 	<artifactId>com.hybrid.nopcommerce</artifactId>
@@ -23,8 +21,9 @@
 		<webdriver.version>3.141.59</webdriver.version>
 		<testng.version>6.14.3</testng.version>
 		<jackson.version>2.9.4</jackson.version>
-		<webdrivermanager.version>4.2.2</webdrivermanager.version>
+		<webdrivermanager.version>5.3.2</webdrivermanager.version>
 		<aspectj.version>1.8.10</aspectj.version>
+		<environment>Dev</environment>
 	</properties>
 
 	<!-- Quản lí thư viện -->
@@ -74,10 +73,10 @@
 		</dependency>
 
 		<dependency>
-    <groupId>com.aventstack</groupId>
-    <artifactId>extentreports</artifactId>
-    <version>5.0.5</version>
-</dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>4.0.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -132,6 +131,13 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.aeonbits.owner</groupId>
+			<artifactId>owner</artifactId>
+			<version>1.0.12</version>
+		</dependency>
+
 	</dependencies>
 
 	<!-- Compiler/ Run Test -->
@@ -157,7 +163,7 @@
 				<configuration>
 					<!-- Run TestNG xml file -->
 					<suiteXmlFiles>
-						<file>src/test/resources/runEmployee.HRM.xml</file>
+						<file>environmentXML/runAdmin.NopCommerce${environment}.xml</file>
 					</suiteXmlFiles>
 
 					<!-- Argument -->

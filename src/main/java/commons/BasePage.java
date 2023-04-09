@@ -450,7 +450,7 @@ public class BasePage {
 	}
 
 	public boolean isJQueryAjaxLoadedSuccess(WebDriver driver) {
-		WebDriverWait explicitwait = new WebDriverWait(driver, 30);
+		WebDriverWait explicit = new WebDriverWait(driver, 30);
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
 			@Override
@@ -459,7 +459,7 @@ public class BasePage {
 				return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
 			}
 		};
-		return explicitwait.until(jQueryLoad);
+		return explicit.until(jQueryLoad);
 	}
 
 	public boolean areJQueryAndJSLoadedSuccess(WebDriver driver) {

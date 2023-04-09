@@ -126,7 +126,7 @@ public class BasePageFactory {
 		return select.getFirstSelectedOption().getText();
 	}
 
-	protected boolean isDropdownMutiple(WebDriver driver, String xpathLocator) {
+	protected boolean isDropdownMultiple(WebDriver driver, String xpathLocator) {
 		Select select = new Select(getWebElement(driver, xpathLocator));
 		return select.isMultiple();
 	}

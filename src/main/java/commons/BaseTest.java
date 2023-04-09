@@ -10,14 +10,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -30,168 +25,253 @@ public class BaseTest {
 	protected BaseTest() {
 		log = LogFactory.getLog(getClass());
 	}
-	
-	private enum BROWSER {
-		CHROME, FIREFOX, SAFARI, EDGE_LEGACY, EDGE_CHRONIUM, H_CHROME, H_FIREFOX;
-	}
-	
-	protected WebDriver getBrowserDriver(String browserName) {
-		if (browserName.equals("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-		} else if (browserName.equals("h_firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			FirefoxOptions options = new FirefoxOptions();
-			options.addArguments("--headless");
-			options.addArguments("window-size=1920x1080");
-			driver = new FirefoxDriver(options);
-		} else if (browserName.equals("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-//		} else if (browserName.equals("h_chrome")) {
-			WebDriverManager.chromedriver().setup();
-			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--headless");
-			options.addArguments("window-size=1920x1080");
-			driver = new ChromeDriver(options);
-		} else if (browserName.equals("edge")) {
-			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
-		} else if (browserName.equals("opera")) {
-			WebDriverManager.operadriver().setup();
-			driver = new OperaDriver();
-		} else if (browserName.equals("coccoc")) {
-			WebDriverManager.chromedriver().driverVersion("95.0.4638.10").setup();
-			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:\\Program Files\\CocCoc\\Browser\\Application\\browser.exe");
-			driver = new ChromeDriver(options);
-		} else if (browserName.equals("brave")) {
-			WebDriverManager.chromedriver().driverVersion("96.0.4664.35").setup();
-			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe");
-			driver = new ChromeDriver(options);
-		} else if (browserName.equals("ie")) {
-			WebDriverManager.iedriver().arch32().setup();
-			driver = new InternetExplorerDriver();
-		} else {
-			throw new RuntimeException("Browser name invalid");
-		}
 
+	protected WebDriver getBrowserDriver(String browserName) {
+		BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
+
+		switch (browserList) {
+		case FIREFOX:
+			FirefoxOptions ffOptions = new FirefoxOptions();
+			ffOptions.addArguments("-private");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffOptions).create();
+			break;
+
+		case FIREFOX_HEADLESS:
+			FirefoxOptions ffHeadOptions = new FirefoxOptions();
+			ffHeadOptions.addArguments("-headless");
+			ffHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffHeadOptions).create();
+			break;
+
+		case OPERA:
+			driver = WebDriverManager.operadriver().create();
+			break;
+
+		case CHROME:
+			WebDriverManager.chromedriver().create();
+			driver = new ChromeDriver();
+			break;
+
+		case CHROME_HEADLESS:
+			ChromeOptions chromeHeadOptions = new ChromeOptions();
+			chromeHeadOptions.addArguments("--headless");
+			chromeHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.chromedriver().capabilities(chromeHeadOptions).create();
+			break;
+
+		case EDGE:
+			driver = WebDriverManager.edgedriver().create();
+			break;
+
+		case SAFARI:
+			driver = WebDriverManager.safaridriver().create();
+			// driver = new SafariDriver();
+			break;
+
+		case IE:
+			driver = WebDriverManager.iedriver().arch32().create();
+			break;
+		case COC_COC:
+			WebDriverManager.chromedriver().driverVersion("107.0.5304.62").setup();
+			ChromeOptions options = new ChromeOptions();
+			options.setBinary("String Path");
+			driver = new ChromeDriver(options);
+			break;
+		default:
+			throw new RuntimeException("Browser name is invalid");
+		}
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-		driver.get(GlobalConstants.PORTAL_DEV_URL);
+		driver.get(GlobalConstants.DEV_USER_URL);
 		return driver;
 	}
 
 	protected WebDriver getBrowserDriver(String browserName, String appURL) {
-		if (browserName.equals("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-		} else if (browserName.equals("h_firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			FirefoxOptions options = new FirefoxOptions();
-			options.addArguments("--headless");
-			options.addArguments("window-size=1920x1080");
-			driver = new FirefoxDriver(options);
-		} else if (browserName.equals("chrome")) {
-			WebDriverManager.chromedriver().setup();
+		BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
+
+		switch (browserList) {
+		case FIREFOX:
+			FirefoxOptions ffOptions = new FirefoxOptions();
+			ffOptions.addArguments("-private");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffOptions).create();
+			break;
+
+		case FIREFOX_HEADLESS:
+			FirefoxOptions ffHeadOptions = new FirefoxOptions();
+			ffHeadOptions.addArguments("-headless");
+			ffHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffHeadOptions).create();
+			break;
+
+		case OPERA:
+			driver = WebDriverManager.operadriver().create();
+			break;
+
+		case CHROME:
+			WebDriverManager.chromedriver().create();
 			driver = new ChromeDriver();
-		} else if (browserName.equals("h_chrome")) {
-			WebDriverManager.chromedriver().setup();
+			break;
+
+		case CHROME_HEADLESS:
+			ChromeOptions chromeHeadOptions = new ChromeOptions();
+			chromeHeadOptions.addArguments("--headless");
+			chromeHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.chromedriver().capabilities(chromeHeadOptions).create();
+			break;
+
+		case EDGE:
+			driver = WebDriverManager.edgedriver().create();
+			break;
+
+		case SAFARI:
+			driver = WebDriverManager.safaridriver().create();
+			// driver = new SafariDriver();
+			break;
+
+		case IE:
+			driver = WebDriverManager.iedriver().arch32().create();
+			break;
+		case COC_COC:
+			WebDriverManager.chromedriver().driverVersion("107.0.5304.62").setup();
 			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--headless");
-			options.addArguments("window-size=1920x1080");
+			options.setBinary("String Path");
 			driver = new ChromeDriver(options);
-		} else if (browserName.equals("edge")) {
-			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
-		} else if (browserName.equals("opera")) {
-			WebDriverManager.operadriver().setup();
-			driver = new OperaDriver();
-		} else if (browserName.equals("coccoc")) {
-			WebDriverManager.chromedriver().driverVersion("95.0.4638.10").setup();
+			break;
+		default:
+			throw new RuntimeException("Browser name is invalid");
+		}
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.get(getAppURLByServerName(browserName));
+		return driver;
+	}
+	
+	protected WebDriver getBrowserDriver(String browserName, String serverName, String roleName) {
+		BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
+
+		switch (browserList) {
+		case FIREFOX:
+			FirefoxOptions ffOptions = new FirefoxOptions();
+			ffOptions.addArguments("-private");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffOptions).create();
+			break;
+
+		case FIREFOX_HEADLESS:
+			FirefoxOptions ffHeadOptions = new FirefoxOptions();
+			ffHeadOptions.addArguments("-headless");
+			ffHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.firefoxdriver().capabilities(ffHeadOptions).create();
+			break;
+
+		case OPERA:
+			driver = WebDriverManager.operadriver().create();
+			break;
+
+		case CHROME:
+			WebDriverManager.chromedriver().create();
+			driver = new ChromeDriver();
+			break;
+
+		case CHROME_HEADLESS:
+			ChromeOptions chromeHeadOptions = new ChromeOptions();
+			chromeHeadOptions.addArguments("--headless");
+			chromeHeadOptions.addArguments("-window-size=1920x1080");
+			driver = WebDriverManager.chromedriver().capabilities(chromeHeadOptions).create();
+			break;
+
+		case EDGE:
+			driver = WebDriverManager.edgedriver().create();
+			break;
+
+		case SAFARI:
+			driver = WebDriverManager.safaridriver().create();
+			// driver = new SafariDriver();
+			break;
+
+		case IE:
+			driver = WebDriverManager.iedriver().arch32().create();
+			break;
+		case COC_COC:
+			WebDriverManager.chromedriver().driverVersion("107.0.5304.62").setup();
 			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:\\Program Files\\CocCoc\\Browser\\Application\\browser.exe");
+			options.setBinary("String Path");
 			driver = new ChromeDriver(options);
-		} else if (browserName.equals("brave")) {
-			WebDriverManager.chromedriver().driverVersion("96.0.4664.35").setup();
-			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe");
-			driver = new ChromeDriver(options);
-		} else if (browserName.equals("ie")) {
-			WebDriverManager.iedriver().arch32().setup();
-			driver = new InternetExplorerDriver();
-		} else {
-			throw new RuntimeException("Browser name invalid");
+			break;
+		default:
+			throw new RuntimeException("Browser name is invalid");
 		}
 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-		driver.get(appURL);
+		driver.get(getAppURLByRoleName(serverName, roleName));
 		return driver;
 	}
 
-//	protected WebDriver getBrowserDriver(String browserName, String environmentName) {
-//		if (browserName.equals("firefox")) {
-//			WebDriverManager.firefoxdriver().setup();
-//			driver = new FirefoxDriver();
-//		} else if (browserName.equals("h_firefox")) {
-//			WebDriverManager.firefoxdriver().setup();
-//			FirefoxOptions options = new FirefoxOptions();
-//			options.addArguments("--headless");
-//			options.addArguments("window-size=1920x1080");
-//			driver = new FirefoxDriver(options);
-//		}else if (browserName.equals("chrome")) {
-//			WebDriverManager.chromedriver().setup();
-//			driver = new ChromeDriver();
-//		} else if (browserName.equals("h_chrome")) {
-//			WebDriverManager.chromedriver().setup();
-//			ChromeOptions options = new ChromeOptions();
-//			options.addArguments("--headless");
-//			options.addArguments("window-size=1920x1080");
-//			driver = new ChromeDriver(options);
-//		} else if (browserName.equals("edge")) {
-//			WebDriverManager.edgedriver().setup();
-//			driver = new EdgeDriver();
-//		} else if (browserName.equals("opera")) {
-//			WebDriverManager.operadriver().setup();
-//			driver = new OperaDriver();
-//		} else if (browserName.equals("coccoc")) {
-//			WebDriverManager.chromedriver().driverVersion("95.0.4638.10").setup();
-//			ChromeOptions options = new ChromeOptions();
-//			options.setBinary("C:\\Program Files\\CocCoc\\Browser\\Application\\browser.exe");
-//			driver = new ChromeDriver(options);
-//		} else if (browserName.equals("brave")) {
-//			WebDriverManager.chromedriver().driverVersion("96.0.4664.35").setup();
-//			ChromeOptions options = new ChromeOptions();
-//			options.setBinary("C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe");
-//			driver = new ChromeDriver(options);
-//		} else if (browserName.equals("ie")) {
-//			WebDriverManager.iedriver().arch32().setup();
-//			driver = new InternetExplorerDriver();
-//		}else {
-//			throw new RuntimeException("Browser name invalid");
-//		}
-//		
-//		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-//		driver.manage().window().maximize();
-//		driver.get(getEnvironmentURL(environmentName));
-//		return driver;
-//	}
-//		
-//	private String getEnvironmentURL(String environmentName) {
-//		String url = null;
-//		switch (environmentName) {
-//		case "DEV":
-//			url = GlobalConstants.PORTAL_DEV_URL;
-//			break;
-//		case "TEST":
-//			url = GlobalConstants.PORTAL_TEST_URL;
-//			break;
-//		}
-//	return url;
-//	
-//	}
+	private String getUserAppURLByServerName(String ServerName) {
+		ServerList serverList = ServerList.valueOf(ServerName.toUpperCase());
+		
+		switch (serverList) {
+		case DEV:
+			return GlobalConstants.DEV_USER_URL;
+		case STAGING:
+			return GlobalConstants.STAGING_USER_URL;
+		case TESTING:
+			return GlobalConstants.TESTING_USER_URL;
+		case LIVE:
+			return GlobalConstants.LIVE_USER_URL;
+		default:
+			throw new RuntimeException("Server name is not valid");
+		}
+	}
+
+	private String getAdminAppURLByServerName(String ServerName) {
+		ServerList serverList = ServerList.valueOf(ServerName.toUpperCase());
+
+		switch (serverList) {
+		case DEV:
+			return GlobalConstants.DEV_ADMIN_URL;
+		case STAGING:
+			return GlobalConstants.STAGING_ADMIN_URL;
+
+		case TESTING:
+			return GlobalConstants.TESTING_ADMIN_URL;
+
+		case LIVE:
+			return GlobalConstants.LIVE_ADMIN_URL;
+
+		default:
+			throw new RuntimeException("Server name is not valid");
+		}
+	}
+
+	private String getAppURLByRoleName(String serverName, String roleName) {
+		if (roleName.toLowerCase().equals("user")) {
+			return getUserAppURLByServerName(serverName);
+		} else {
+			return getAdminAppURLByServerName(serverName);
+		}
+	}
+
+	private String getAppURLByServerName(String ServerName) {
+		ServerList serverList = ServerList.valueOf(ServerName.toUpperCase());
+
+		switch (serverList) {
+		case DEV:
+			return GlobalConstants.DEV_USER_URL;
+		case STAGING:
+			return GlobalConstants.STAGING_USER_URL;
+
+		case TESTING:
+			return GlobalConstants.TESTING_USER_URL;
+
+		case LIVE:
+			return GlobalConstants.LIVE_USER_URL;
+
+		default:
+			throw new RuntimeException("Server name is not valid");
+		}
+	}
+	
 	private boolean checkTrue(boolean condition) {
 		boolean pass = true;
 		try {
@@ -345,5 +425,3 @@ public class BaseTest {
 		}
 	}
 }
-			        
-	
